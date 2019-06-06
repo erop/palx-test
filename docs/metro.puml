@@ -1,0 +1,23 @@
+@startuml
+
+class Metro
+{
+- stations: Station[]
+}
+class Station
+{
+- turnstiles: Turnstile[]
+}
+
+abstract class Turnstile
+{
+- state: TurnstileState
++ transitionTo(state: TurnstileState)
+}
+
+
+Metro "1" *-- "*" Station
+Station "1" *-- "*" Turnstile
+
+
+@enduml

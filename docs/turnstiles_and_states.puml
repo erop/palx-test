@@ -1,0 +1,57 @@
+@startuml
+' turnstiles only
+abstract class Turnstile
+class InTurnstile
+class OutTurnstile
+class InOutTurnstile
+Turnstile <|-- InTurnstile
+Turnstile <|-- OutTurnstile
+Turnstile <|-- InOutTurnstile
+interface InTurnstileEvents
+{
++ paymentCardApplied(Passenger $passenger): void
++ passengerEntered(Passenger $passenger): void
+}
+interface OutTurnstileEvents
+{
++ passengerApproachedFromInside(Passenger $passenger): void
++ passengerComeOut(Passenger $passenger): void
+}
+InTurnstileEvents <|.. InTurnstile
+OutTurnstileEvents <|.. OutTurnstile
+InTurnstileEvents <|.. InOutTurnstile
+OutTurnstileEvents <|.. InOutTurnstile
+
+' states
+abstract class TurnstileState
+{
+- turnstile: Turnstile
++ setTurnstile(turnstile: Turnstile): void
+}
+abstract class InTurnstileState
+abstract class OutTurnstileState
+abstract class InOutTurnstileState
+TurnstileState <|-- InTurnstileState
+TurnstileState <|-- OutTurnstileState
+TurnstileState <|-- InOutTurnstileState
+
+' to use interfaces for states or not???
+class InTurnstileLocked
+class InTurnstileUnlocked
+InTurnstileState <|-- InTurnstileLocked
+InTurnstileState <|-- InTurnstileUnlocked
+
+class OutTurnstileLocked
+class OutTurnstileUnlocked
+OutTurnstileState <|-- OutTurnstileLocked
+OutTurnstileState <|-- OutTurnstileUnlocked
+
+class InOutTurnstileLocked
+class InOutTurnstileUnlockedToEnter
+class InOutTurnstileUnlockedToExit
+InOutTurnstileState <|-- InOutTurnstileLocked
+InOutTurnstileState <|-- InOutTurnstileUnlockedToEnter
+InOutTurnstileState <|-- InOutTurnstileUnlockedToExit
+
+
+@enduml
